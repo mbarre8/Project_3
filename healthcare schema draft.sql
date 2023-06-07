@@ -4,7 +4,7 @@ DROP TABLE states_id;
 -- Create a new table for states
 CREATE TABLE states_id (
   states_id VARCHAR(15) PRIMARY KEY,
-  State  VARCHAR(5) UNIQUE NOT NULL 
+  State VARCHAR(5) UNIQUE NOT NULL 
 );
 
 --show data in ownership table
@@ -33,7 +33,8 @@ CREATE TABLE hospitalization_data (
   ZIP INT NOT NULL,
   Type_of_Ownership VARCHAR(70) NOT NULL,
   Home_Health_Patients_Admitted_to_Hospital FLOAT(5) NOT NULL,
-  Home_Health_Patients_ER_Visits_with_Admission FLOAT(5) NOT NULL
+  Home_Health_Patients_ER_Visits_with_Admission FLOAT(5) NOT NULL,
+  ownership_id VARCHAR (15) NOT NULL
 );
 
 --show data in hospitalization_data table
@@ -43,7 +44,7 @@ DROP TABLE cms_data;
 
 -- Create a new table hospitalization_data
 CREATE TABLE cms_data (
-  State VARCHAR(2) PRIMARY KEY ,
+  State VARCHAR(2) PRIMARY KEY,
   CMS_Certification_Number INT NOT NULL,
   Provider_Name VARCHAR(70) NOT NULL,
   Address VARCHAR(50) NOT NULL,
@@ -64,7 +65,7 @@ CREATE TABLE cms_data (
   Perceived_Bathing_Improvement FLOAT(5) NOT NULL,
   Change_in_skin_Integrity FLOAT(5) NOT NULL,
   Physician_Medication_Orders_Addressed_in_a_Timely_Manner FLOAT(5) NOT NULL,
-  Percent_of_Residents_Experiencing_One_or_More_Falls_with_Major_Injury FLOAT(5) NOT NULL,
+  One_or_More_Falls_with_Major_Injury FLOAT(5) NOT NULL,
   states_id VARCHAR (8) NOT NULL,
   ownership_id VARCHAR (15) NOT NULL
 );
