@@ -1,0 +1,2 @@
+Cms data column names need to be shortened or postgres shortens automatically.
+Will test tables,make foreign keys, and create erd updates after updates made.
