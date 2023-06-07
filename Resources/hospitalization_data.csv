@@ -1,4 +1,4 @@
-State,CMS Certification Number (CCN),Provider Name,Address,City,ZIP,Type of Ownership,Home Health Patients Admitted to Hospital,Home Health Patients ER Visits with Admission
+State,CMS_Certification_Number,Provider_Name,Address,City,ZIP,Type_of_Ownership,Home_Health_Patients_Admitted_to_Hospital,Home_Health_Patients_ER_Visits_with_Admission
 AK,27001,PROVIDENCE HOME HEALTH ALASKA,"4001 DALE STREET, SUITE 101",ANCHORAGE,99508,VOLUNTARY NON PROFIT Unknown RELIGIOUS AFFILIATION,14.9,14.2
 AK,27002,HOSPICE & HOME CARE OF JUNEAU,1803 GLACIER HIGHWAY,JUNEAU,99801,VOLUNTARY NON PROFIT Unknown RELIGIOUS AFFILIATION,10.0,16.1
 AK,27006,FAIRBANKS MEMORIAL HOSPITAL HHA,1701 GILLAM WAY,FAIRBANKS,99701,VOLUNTARY NONUnknownPROFIT Unknown OTHER,16.4,25.2
