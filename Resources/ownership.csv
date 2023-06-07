@@ -1,9 +1,9 @@
 ownership_id,Type_of_Ownership
-ownership type 1,VOLUNTARY NON PROFIT Unknown RELIGIOUS AFFILIATION
-ownership type 2,VOLUNTARY NONUnknownPROFIT Unknown OTHER
-ownership type 3,PROPRIETARY
-ownership type 4,GOVERNMENT Unknown STATE/COUNTY
-ownership type 5,VOLUNTARY NONUnknownPROFIT Unknown PRIVATE
-ownership type 6,GOVERNMENT Unknown LOCAL
-ownership type 7,Unknown
-ownership type 8,GOVERNMENT Unknown COMBINATION GOVT & VOLUNTARY
+type1,VOLUNTARY NON PROFIT Unknown RELIGIOUS AFFILIATION
+type2,VOLUNTARY NONUnknownPROFIT Unknown OTHER
+type3,PROPRIETARY
+type4,GOVERNMENT Unknown STATE/COUNTY
+type5,VOLUNTARY NONUnknownPROFIT Unknown PRIVATE
+type6,GOVERNMENT Unknown LOCAL
+type7,Unknown
+type8,GOVERNMENT Unknown COMBINATION GOVT & VOLUNTARY
