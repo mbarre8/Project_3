@@ -49,7 +49,7 @@ def names():
 
     """Return a list of all passenger names"""
     # Query all passengers
-    results = session.query(cms_data.Provider_Name).all()
+    results = session.query(hospitalization_data.Type_of_Ownership, func.avg(hospitalization_data.Home_Health_Patients_Admitted_to_Hospital)).group_by(hospitalization_data.Type_of_Ownership).order_by(func.avg(hospitalization_data.Home_Health_Patients_Admitted_to_Hospital).desc()).all()
 
     session.close()
 
