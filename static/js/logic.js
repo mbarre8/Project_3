@@ -1,3 +1,5 @@
+
+
 d3.json("api/homehealth").then((data) => {
 
     console.log(data)
@@ -15,13 +17,12 @@ d3.json("api/homehealth").then((data) => {
         ]
     } );
   
-  })
+  });
 
+ 
   
-  fetch('/api/ownership')
-  .then(response => response.json())
-  .then(data => {
-      console.log("hello")
+  d3.json("/api/ownership").then((data) => {
+      console.log(data)
     const categories = data.map(item => item.category);
     const values = data.map(item => item.value);
 
@@ -37,7 +38,7 @@ d3.json("api/homehealth").then((data) => {
       var data = [trace1];
       
       var layout = { 
-        title: 'Ownership Type Vs Ratings',
+        title: 'Ownership Type Vs Ratings'
       };
       
       var config = {responsive: true}

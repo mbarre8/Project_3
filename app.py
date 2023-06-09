@@ -13,7 +13,7 @@ from flask import Flask, jsonify, render_template
 #################################################
 # Database Setup
 #################################################
-engine = create_engine("sqlite:///HomeHealthDB.db")
+engine = create_engine("sqlite:///HomeHealthAgenciesDB.db")
 
 # reflect an existing database into a new model
 Base = automap_base()
@@ -91,42 +91,9 @@ def ownerships():
     session.close()
 
     return jsonify(results)
-# @app.route("/api/HomeHealthAgencies")
-# def homehealth_grid():
-
-#     session = Session(engine)
-
-#     results = session.query(cms_data.State, cms_data.Provider_Name, cms_data.City, cms_data.Date_Certified, cms_data.Quality_of_Care_Rating).all()
-
-#     results = [list(r) for r in results]
-
-#     table_results = {
-#         "table": results
-#     }
-
-#     session.close()
-
-#     return jsonify(table_results)
-
-# @app.route("/data")
-# def data():
-#     # Create our session (link) from Python to the DB
-#     session = Session(engine)
 
 
-#     # Query all passengers
-#     results = session.query(hospitalization_data.Type_of_Ownership, func.avg(hospitalization_data.Home_Health_Patients_Admitted_to_Hospital)).group_by(hospitalization_data.Type_of_Ownership).order_by(func.avg(hospitalization_data.Home_Health_Patients_Admitted_to_Hospital).desc()).all()
-#     print(results)
-#     results = [list(r) for r in results]
-
-#     dic = {}
-#     for each in results:
-#         dic[each[0]] = each[1]
-#     session.close()
- 
-#     return jsonify(dic)
-
-   
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, port=5002)
+
