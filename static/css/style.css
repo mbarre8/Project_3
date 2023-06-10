@@ -4,14 +4,14 @@
 body {
   font-family: Helvetica;
   padding: 20px;
-  background: #AFCEF1;
+  background: #fbfaf9;
 }
 
 /* Header/Blog Title */
 .header {
   padding: 30px;
   text-align: center;
-  background: #ADD8E6;
+  background: #f7d0a9;
 }
 
 .header h1 {

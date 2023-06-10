@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <link rel="style" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
 
@@ -14,8 +14,7 @@
   <a href="/data"><b>National Level Data Analysis</b></a>
   <a href="/anaylsis"><b>State Level Data Analysis</b></a>
 </div>
-    <!-- Create a div element to hold the Plotly chart -->
-    <div id="chart"></div>
+   
 
     <!-- Include your custom JavaScript code -->
     <script src="{{ url_for('static', filename='js/logic.js') }}"></script>

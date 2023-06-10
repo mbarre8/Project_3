@@ -5,7 +5,7 @@ d3.json("api/homehealth").then((data) => {
     console.log(data)
   
     // $(document).ready(function() {
-    $('#example').DataTable( {
+    $('#table').DataTable( {
         data: data['table'],
         columns: [
             { title: "States" },
@@ -35,27 +35,16 @@ d3.json("api/homehealth").then((data) => {
             color: '#7FB3D5',
         }
       };
-
-      var trace2 = {
-        type: 'line',
-        x: categories,
-        y: 3.2492325402916347,
-        marker: {
-            color: '#E02D4E',
-        },
-        name: 'National Quality of Care Rating Average'
-      };
       
       var data = [trace1];
-      var data2 = [trace2];
-
-      var layout = { 
+      
+      const layout = { 
         title: 'Average Quality of Rating by Owership Type'
       };
       
       var config = {responsive: true}
       
-      Plotly.newPlot('bar', data, data2, layout, config );
+      Plotly.newPlot('bar', data, layout, config );
     
     });
   
@@ -108,67 +97,40 @@ d3.json("api/homehealth").then((data) => {
       Plotly.newPlot('Chart', traces, layout);
     });
 
-  //   d3.json("/api/bbox").then((data) => {
-  //     console.log(data)
-  //     const groupedData = {};
-
-  //     // Group the data by Type_of_Ownership
-  //     for (let i = 0; i < data.length; i++) {
-  //       const item = data[i];
-  //       if (!(item.Type_of_Ownership in groupedData)) {
-  //         groupedData[item.Type_of_Ownership] = [];
-  //       }
-  //       groupedData[item.Type_of_Ownership].push(item.Quality_of_Care_Rating);
-  //     }
+    d3.json("/api/admissionsl").then((data) => {
+      console.log(data)
+      const ownershipTypes = data.map(item => item.type_of_ownership);
+      const avgPatientsAdmitted = data.map(item => item.avg_patients_admitted);
+      const avgPatientsAdmittedER = data.map(item => item.avg_patients_ER_visit);
+     
   
-  //     // Create an array of traces for each Type_of_Ownership
-  //     const traces = [];
-  //     for (const ownershipType in groupedData) {
-  //       if (groupedData.hasOwnProperty(ownershipType)) {
-  //         const trace = {
-  //           x: [ownershipType],
-  //           y: groupedData[ownershipType],
-  //           type: 'box',
-  //           name: ownershipType
-  //         };
-  //         traces.push(trace);
-  //       }
-  //     }
+      // Create the data traces for the chart
+      const traces = [
+        {
+          x: ownershipTypes,
+          y: avgPatientsAdmitted,
+          type: 'bar',
+          name: 'Average Hospital Admission',
+          marker: {
+            color: '#9BC7F6',}
+        },
+        {
+          x: ownershipTypes,
+          y: avgPatientsAdmittedER,
+          type: 'bar',
+          name: 'Average ER Visit',
+          marker: {
+            color: '#F5D79E',}
+        }
+      ];
   
-  //     // Set the layout options for the box plot
-  //     const layout = {
-  //       title: 'Box Plot',
-  //       yaxis: {
-  //         title: 'Quality of Care Rating'
-  //       }
-  //     };
+      // Set the layout for the chart
+      const layout = {
+        barmode: 'group',
+        title: "Admission Rates"
+        // Define other layout options
+      };
   
-  //     // Create the box plot
-  //     Plotly.newPlot('boxplot', traces, layout);
-  // });
-
-    // d3.json("/api/certified_date").then((data) => {
-    //   console.log(data)
-    // const categories = data.map(item => item.category);
-    // const values = data.map(item => item.value);
-
-    //   var trace1 = {
-    //     type: 'scatter',
-    //     x: categories,
-    //     y: values,
-    //     marker: {
-    //         color: '#7FB3D5',
-    //     }
-    //   };
-      
-    //   var data = [trace1];
-      
-    //   var layout = { 
-    //     title: 'Certified Date Vs Ratings'
-    //   };
-      
-    //   var config = {responsive: true}
-      
-    //   Plotly.newPlot('scatter', data, layout, config );
-    
-    // })
+      // Create the chart
+      Plotly.newPlot('Chart2', traces, layout);
+    });

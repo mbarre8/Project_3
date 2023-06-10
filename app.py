@@ -1,10 +1,13 @@
+import pandas as pd
 import numpy as np
 import sqlite3
+import random
 
 import sqlalchemy
 from sqlalchemy.ext.automap import automap_base
 from sqlalchemy.orm import Session
 from sqlalchemy import create_engine, func
+from sqlalchemy import extract
 
 from flask import Flask, jsonify, render_template
 
@@ -119,24 +122,59 @@ def adl():
     return jsonify(results)
 
 # -------------------------------------------------------------------------------
-@app.route("/api/bbox")
-def bbox():
+@app.route("/api/admissions")
+def admissions():
 
     session = Session(engine)
 
-    results = session.query(Cms_data.Quality_of_Care_Rating, Cms_data.Type_of_Ownership).all()
+    sel2 = [
+        Hospitalization_data.Type_of_Ownership,
+        func.avg(Hospitalization_data.Home_Health_Patients_Admitted_to_Hospital),
+        func.avg(Hospitalization_data.Home_Health_Patients_ER_Visits_without_Admission)
+    ]
 
-    results = [list(r) for r in results]
-   
-    box_results = {
-        "box": results
-    }
+    admission_averages = session.query(*sel2).\
+        group_by(Hospitalization_data.Type_of_Ownership).\
+        order_by(Hospitalization_data.Type_of_Ownership).all()
 
+    # Convert the query results to a list of dictionaries
+    results = []
+    for row in admission_averages:
+        result = {
+            'type_of_ownership': row[0],
+            'avg_patients_admitted': row[1],
+            'avg_patients_ER_visit': row[2]
+        }
+        results.append(result)
     session.close()
 
-    return jsonify(box_results)
+    return jsonify(results)
+
+# @app.route("/api/date")
+# def date():
+
+#     session = Session(engine)
+
+#     results = session.query(
+#         Cms_data.Quality_of_Care_Rating,
+#         extract('year', Cms_data.Date_Certified)
+#     ).group_by(Cms_data.Date_Certified).order_by(Cms_data.Date_Certified).all()
+
+#     sample_size = 500
+#     if len(query_result) > sample_size:
+#         query_result = random.sample(query_result, sample_size)
+
+#     ratings = [result[0] for result in results]
+#     years = [result[1] for result in results]
+
+#     data = {'ratings': ratings, 'years': years}
+
+#     return jsonify(data)
 
 
 if __name__ == '__main__':
     app.run(debug=True)
+
+# -------------------------------------------------------------------------------
+
 
