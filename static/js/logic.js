@@ -5,7 +5,7 @@ d3.json("api/homehealth").then((data) => {
     console.log(data)
   
     // $(document).ready(function() {
-    $('#table').DataTable( {
+    $('#example').DataTable( {
         data: data['table'],
         columns: [
             { title: "States" },
@@ -18,8 +18,7 @@ d3.json("api/homehealth").then((data) => {
     } );
   
   });
-
- 
+  // -------------------------------------------------------------------------------
   
   d3.json("/api/ownership").then((data) => {
       console.log(data)
@@ -48,7 +47,7 @@ d3.json("api/homehealth").then((data) => {
     
     });
   
-
+  // -------------------------------------------------------------------------------
 
     d3.json("/api/adl").then((data) => {
       console.log(data)
@@ -96,9 +95,11 @@ d3.json("api/homehealth").then((data) => {
       // Create the chart
       Plotly.newPlot('Chart', traces, layout);
     });
+   
+      // -------------------------------------------------------------------------------
 
-    d3.json("/api/admissionsl").then((data) => {
-      console.log(data)
+    d3.json("/api/admissions").then((data) => {
+      console.log("data");
       const ownershipTypes = data.map(item => item.type_of_ownership);
       const avgPatientsAdmitted = data.map(item => item.avg_patients_admitted);
       const avgPatientsAdmittedER = data.map(item => item.avg_patients_ER_visit);

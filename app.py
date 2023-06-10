@@ -127,13 +127,13 @@ def admissions():
 
     session = Session(engine)
 
-    sel2 = [
+    sel3 = [
         Hospitalization_data.Type_of_Ownership,
         func.avg(Hospitalization_data.Home_Health_Patients_Admitted_to_Hospital),
         func.avg(Hospitalization_data.Home_Health_Patients_ER_Visits_without_Admission)
     ]
 
-    admission_averages = session.query(*sel2).\
+    admission_averages = session.query(*sel3).\
         group_by(Hospitalization_data.Type_of_Ownership).\
         order_by(Hospitalization_data.Type_of_Ownership).all()
 
