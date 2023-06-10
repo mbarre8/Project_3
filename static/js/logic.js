@@ -100,7 +100,7 @@ d3.json("api/homehealth").then((data) => {
       // Set the layout for the chart
       const layout = {
         barmode: 'stack',
-        title: "Improvement Rates of Activities of Daily Living while using Home Health Services"
+        title: "Improvement in Activities of Daily Living"
         // Define other layout options
       };
   
