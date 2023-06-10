@@ -51,10 +51,6 @@ def data():
 def states():
     return render_template("analysis.html")
 
-# @app.route("/")
-# def index():
-#     return render_template('index.html', data=data)
-
 
 # Datatable
 @app.route("/api/homehealth")
@@ -75,7 +71,7 @@ def hh_grid():
     return jsonify(table_results)
 
 # -------------------------------------------------------------------------------
-# Charts
+
 @app.route("/api/ownership")
 def ownerships():
 
@@ -91,9 +87,56 @@ def ownerships():
     session.close()
 
     return jsonify(results)
+# -------------------------------------------------------------------------------
+@app.route("/api/adl")
+def adl():
 
+    session = Session(engine)
+
+    sel2 = [
+        Cms_data.Type_of_Ownership,
+        func.avg(Cms_data.Perceived_Walking_Improvement),
+        func.avg(Cms_data.Perceived_Bed_Mobility_Improvement),
+        func.avg(Cms_data.Perceived_Bathing_Improvement)
+    ]
+
+    adl_averages = session.query(*sel2).\
+        group_by(Cms_data.Type_of_Ownership).\
+        order_by(Cms_data.Type_of_Ownership).all()
+
+    # Convert the query results to a list of dictionaries
+    results = []
+    for row in adl_averages:
+        result = {
+            'type_of_ownership': row[0],
+            'avg_walking_improvement': row[1],
+            'avg_bed_mobility_improvement': row[2],
+            'avg_bathing_improvement': row[3]
+        }
+        results.append(result)
+    session.close()
+
+    return jsonify(results)
+
+# -------------------------------------------------------------------------------
+@app.route("/api/bbox")
+def bbox():
+
+    session = Session(engine)
+
+    results = session.query(Cms_data.Quality_of_Care_Rating, Cms_data.Type_of_Ownership).all()
+
+    results = [list(r) for r in results]
+   
+    box_results = {
+        "box": results
+    }
+
+    session.close()
+
+    return jsonify(box_results)
 
 
 if __name__ == '__main__':
-    app.run(debug=True, port=5002)
+    app.run(debug=True, port=5015)
 

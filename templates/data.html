@@ -1,13 +1,23 @@
-<html lang="en-us">
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="style" href="{{ url_for('static', filename='css/style.css') }}">
+<title>Home Health Table</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+</head>
+<body>
 
-  <head>
-    <meta charset="UTF-8">
-    <title>Home Health Agencies</title>
-  
-  </head>
-  
-  <body>
-  
+<div class="header">
+  <h1>Home Health Services Analysis</h1>
+</div>
+
+<div class="topnav">
+  <a href="/index"><b>Home page</b></a>
+  <a href="/data"><b>National Level Data Analysis</b></a>
+  <a href="/anaylsis"><b>State Level Data Analysis</b></a>
+</div>
   
   <div class="container">
   
@@ -16,7 +26,7 @@
    
 
     <div clas="row">
-      <div class="col-md-10">
+      <div class="col-md-12">
           <table id="example" class="display" width="0%"></table>
         </div>
     </div>
@@ -27,11 +37,18 @@
       <div class="col-md-6">       
         <div id="bar"></div>
       </div>
-    </div>
-
     
+      <div class="col-md-6">       
+        <div id="Chart"></div>
+      </div>
+    </div>
+    <hr>
 
-
+    <div class="row" >
+      <div class="col-md-6">       
+        <div id="boxplot"></div>
+      </div>
+    </div>
   
   <br>
   
