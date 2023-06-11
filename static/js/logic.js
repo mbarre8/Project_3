@@ -1,6 +1,6 @@
 
 
-d3.json("api/homehealth").then((data) => {
+d3.json("/api/homehealth").then((data) => {
 
     console.log(data)
   
@@ -12,6 +12,7 @@ d3.json("api/homehealth").then((data) => {
             { title: "Certification Number" },
             { title: "Name of Agency" },
             { title: "City" },
+            { title: "Zip"},
             { title: "Ownership" },
             { title: "Rating" },
         ]
@@ -135,3 +136,5 @@ d3.json("api/homehealth").then((data) => {
       // Create the chart
       Plotly.newPlot('Chart2', traces, layout);
     });
+
+       // ------------------------------------------------------------------------------

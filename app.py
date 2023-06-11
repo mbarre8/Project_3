@@ -55,13 +55,13 @@ def states():
     return render_template("analysis.html")
 
 
-# Datatable
+# Data
 @app.route("/api/homehealth")
 def hh_grid():
 
     session = Session(engine)
 
-    results = session.query(Cms_data.State, Cms_data.CMS_Certification_Number, Cms_data.Provider_Name, Cms_data.City, Cms_data.Type_of_Ownership,Cms_data.Quality_of_Care_Rating).all()
+    results = session.query(Cms_data.State, Cms_data.CMS_Certification_Number, Cms_data.Provider_Name, Cms_data.City, Cms_data.ZIP, Cms_data.Type_of_Ownership,Cms_data.Quality_of_Care_Rating).all()
 
     results = [list(r) for r in results]
    
@@ -149,7 +149,50 @@ def admissions():
     session.close()
 
     return jsonify(results)
+# -------------------------------------------------------------------------------
+@app.route("/api/dashboard")
+def dashboard():
 
+    session = Session(engine)
+
+    results = session.query(Cms_data.State, Cms_data.CMS_Certification_Number, Cms_data.Provider_Name, Cms_data.City, Cms_data.ZIP, Cms_data.Type_of_Ownership, Cms_data.Nursing_Care_Services, Cms_data.Physical_Therapy_Services,Cms_data.Occupational_Therapy_Services,Cms_data.Speech_Pathology_Services, Cms_data.Medical_Social_Service , Cms_data.Home_Health_Aide_Services, Cms_data.Quality_of_Care_Rating, Cms_data.Date_Certified, Cms_data.Perceived_Timely_Care,Cms_data.Perceived_Walking_Improvement,Cms_data.Perceived_Bed_Mobility_Improvement,Cms_data.Perceived_Bathing_Improvement,Cms_data.Change_in_skin_Integrity,Cms_data.Physician_Medication_Orders_Addressed_in_a_Timely_Manner, Cms_data.One_or_More_Falls_with_Major_Injury).all()
+    results = [list(r) for r in results]
+
+    results1 = session.query(States.State).all()
+    results1 = [row.State for row in results1]
+
+    results2 = session.query(Hospitalization_data.State, Hospitalization_data.CMS_Certification_Number, Hospitalization_data.Provider_Name, Hospitalization_data.Address, Hospitalization_data.City, Hospitalization_data.ZIP, Hospitalization_data.Type_of_Ownership, Hospitalization_data.Home_Health_Patients_Admitted_to_Hospital, Hospitalization_data.Home_Health_Patients_ER_Visits_without_Admission).all()
+    results2= [list(h) for h in results2]
+
+    data_results = {
+        "CMS": results,
+        "Admission": results2,
+        "State": results1
+    }
+# Link CMS data to states
+    linked_results_cms = []
+    for state in results1:
+        state_data_cms = {
+            "State": state,
+            "Data": [r for r in results if r[0] == state]
+        }
+        linked_results_cms.append(state_data_cms)
+
+    # Link Admission data to states
+    linked_results_admission = []
+    for state in results1:
+        state_data_admission = {
+            "State": state,
+            "Data": [h for h in results2 if h[0] == state]
+        }
+        linked_results_admission.append(state_data_admission)
+
+    data_results["LinkedResultsCMS"] = linked_results_cms
+    data_results["LinkedResultsAdmission"] = linked_results_admission
+
+    session.close()
+
+    return jsonify(data_results)
 # @app.route("/api/date")
 # def date():
 
@@ -173,7 +216,7 @@ def admissions():
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, port=5055)
 
 # -------------------------------------------------------------------------------
 

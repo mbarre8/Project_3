@@ -2,7 +2,7 @@
 <html>
 <head>
 <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-<title>Home Health Table</title>
+<title>Home Health Services</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
@@ -16,10 +16,10 @@
 <div class="topnav">
   <a href="/index"><b>Home page</b></a>
   <a href="/data"><b>National Level Data Analysis</b></a>
-  <a href="/anaylsis"><b>State Level Data Analysis</b></a>
+  <a href="/analysis"><b>State Level Data Analysis</b></a>
 </div>
   
-  <div class="container">
+  <div class="container text-center">
   
 
     <h3>Home Health Agencies Data</h3>
@@ -49,14 +49,10 @@
     </div>
   
   <br>
-  
   <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/5.5.0/d3.min.js"></script>
-
   <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
   <script src="{{ url_for('static', filename='js/logic.js') }}"></script>
-
   <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
-
   <link rel="stylesheet" href="//cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css">
   <script src="https:////cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
 
