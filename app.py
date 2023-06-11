@@ -193,30 +193,12 @@ def dashboard():
     session.close()
 
     return jsonify(data_results)
-# @app.route("/api/date")
-# def date():
-
-#     session = Session(engine)
-
-#     results = session.query(
-#         Cms_data.Quality_of_Care_Rating,
-#         extract('year', Cms_data.Date_Certified)
-#     ).group_by(Cms_data.Date_Certified).order_by(Cms_data.Date_Certified).all()
-
-#     sample_size = 500
-#     if len(query_result) > sample_size:
-#         query_result = random.sample(query_result, sample_size)
-
-#     ratings = [result[0] for result in results]
-#     years = [result[1] for result in results]
-
-#     data = {'ratings': ratings, 'years': years}
 
 #     return jsonify(data)
 
 
 if __name__ == '__main__':
-    app.run(debug=True, port=5055)
+    app.run(debug=True)
 
 # -------------------------------------------------------------------------------
 

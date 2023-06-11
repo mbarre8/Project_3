@@ -22,10 +22,16 @@ d3.json("/api/dashboard").then((data) =>{
   first_state.forEach(array => {
     quality_of_care_ratings.push(array[12]);
     dates_certified.push(array[13]);
+    walkingImprovements.push(array[15]);
+    bedMobilityImprovements.push(array[16]);
+    bathingImprovements.push(array[17]);
+    changeInSkin.push(array[18]);
+    fallInjury.push(array[20]);
+
     
   });
    
-  console.log(quality_of_ratings);
+  console.log(quality_of_care_ratings);
   console.log(dates_certified);
   
   let trace = {
@@ -36,15 +42,98 @@ d3.json("/api/dashboard").then((data) =>{
   };
   
   let layout = {
-    title: 'Quality of Care Ratings',
+    title: 'Quality of Care Ratings by Date Certified',
     xaxis: { title: 'Date Certified' },
-    yaxis: { title: 'Quality of Care Rating by Date Certified' }
+    yaxis: { title: 'Quality of Care Rating' }
   };
 
-  let data = [trace];
+  let data1= [trace];
 
-  Plotly.newPlot('bar', data, layout); 
+  Plotly.newPlot('line', data1, layout); 
 
+  let walkingImprovements = [];
+  let bedMobilityImprovements = [];
+  let bathingImprovements = [];
+  let changeInSkin = [];
+  let fallInjury = [];
+  // Iterate through each array and extract bathing and walking improvements
+
+  let avgWalkingImprovements = calculateAverage(walkingImprovements);
+  let avgBedMobilityImprovements = calculateAverage(bedMobilityImprovements);
+  let avgBathingImprovements = calculateAverage(bathingImprovements);
+  let avgChangeInSkin = calculateAverage(changeInSkin);
+  let avgFallInjury = calculateAverage(fallInjury);
+  let aveQualityOfCareRating = calculateAverage(quality_of_care_ratings);
+
+  console.log('Average Walking Improvements:', avgWalkingImprovements);
+  console.log('Average Bed Mobility Improvements:', avgBedMobilityImprovements);
+  console.log('Average Bathing Improvements:', avgBathingImprovements);
+  console.log('Average Change In Skin Integrity:', avgChangeInSkin);
+  console.log('Average One or More Falls with Injury:', avgFallInjury);
+  
+  // Function to calculate the average of an array
+  function calculateAverage(arr) {
+    if (arr.length === 0) {
+      return 0;
+    }
+    
+    let sum = arr.reduce((acc, val) => acc + val);
+    return sum / arr.length;
+  }
+  
+  // Create the trace for the horizontal bar graph
+  let data2 = [
+    {
+      y: ['Walking Improvements', 'Bed Mobility Improvement', 'Bathing Improvements', 'Change In Skin Integrity', 'One or More Falls with Injury'],
+      x: [avgWalkingImprovements, avgBedMobilityImprovements, avgBathingImprovements, avgChangeInSkin, avgFallInjury],
+      type: 'bar',
+      orientation: 'h'
+    }
+  ];
+  
+  // Create the layout for the plot
+  let layout1 = {
+    title: '<b>Quality of care averages<b>',
+    margin: {
+          l: 100,
+          r: 100,
+          t: 100,
+          b: 100},
+          bargap :0.05
+        };
+
+  Plotly.newPlot('bar', data2, layout1); 
+
+  let trace3 = [
+    	{
+    		domain: { x: [0, 1], y: [0, 1] },
+    		value: firstWashFreq,
+    		title: { text: "<b>State Care Quality Average <b>" },
+        type: "indicator",
+    		mode: "gauge+number",
+        gauge: {
+          axis:{range: [null, 5] },
+          steps: [
+          { range: [0, 1], color: "#E5F9FF" },
+          { range: [1, 2] , color: "#B8DBE6"},
+          { range: [2, 3], color:  "#84C0D4"},
+          { range: [3, 4], color: "#50A6C2" },
+          { range: [4, 5], color: "#00688B" },
+      
+          ],
+    	}}
+    ];
+    
+    // specifying size and margins of chart
+    let layout3 = { 
+      width: 600,
+      height: 500, 
+      margin: { t: 0, b: 0 }
+      };
+    
+    //plot gauge chart
+    Plotly.newPlot('gauge', trace3, layout3);
+  
   // let link_array = link_cms.filter(item => item.State == sample);
   // let firstLinkArray = link_array[0];
   // console.log("current array: ", firstLinkArray);
