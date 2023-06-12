@@ -39,7 +39,7 @@ d3.json("/api/homehealth").then((data) => {
       var data = [trace1];
       
       const layout = { 
-        title: '<b>Average Quality of Rating by Owership Type<b>',
+        title: '<b>Average Quality of Care Rating by Ownership Type<b>',
         yaxis: { title: 'Quality of Care Rating' }
       };
       
