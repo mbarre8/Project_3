@@ -150,6 +150,22 @@ def admissions():
 
     return jsonify(results)
 # -------------------------------------------------------------------------------
+@app.route("/api/ownershippie")
+def ownershippie():
+
+    session = Session(engine)
+
+    results = session.query(Cms_data.Type_of_Ownership, func.count(Cms_data.Type_of_Ownership)).group_by(Cms_data.Type_of_Ownership).all()
+    
+    results2 = []
+    for row in results:
+        label = row[0]
+        value = row[1]
+        results2.append({"label": label, "value": value})
+
+
+    return jsonify(results2)
+# -------------------------------------------------------------------------------
 @app.route("/api/dashboard")
 def dashboard():
 
@@ -194,11 +210,9 @@ def dashboard():
 
     return jsonify(data_results)
 
-#     return jsonify(data)
-
 
 if __name__ == '__main__':
-    app.run(debug=True, port=5017)
+    app.run(debug=True)
 
 # -------------------------------------------------------------------------------
 

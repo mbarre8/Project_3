@@ -1,5 +1,5 @@
 
-//        // Use the D3 library to Fetch the JSON data and console log it
+
 d3.json("/api/dashboard").then((data) =>{
     console.log("Data: ", data)
   });
@@ -10,7 +10,10 @@ d3.json("/api/dashboard").then((data) =>{
   let first_state = data.CMS.filter(entry => entry[0] == sample);
 
   console.log(first_state);
-
+  
+  let name = [];
+  let cms_number = [];
+  let zip = [];
   let quality_of_care_ratings = [];
   let dates_certified = [];
   let walkingImprovements = [];
@@ -20,6 +23,9 @@ d3.json("/api/dashboard").then((data) =>{
   let fallInjury = [];
 
   first_state.forEach(array => {
+    cms_number.push(array[1]);
+    name.push(array[2]);
+    zip.push(array[4]);
     quality_of_care_ratings.push(array[12]);
     dates_certified.push(array[13]);
     walkingImprovements.push(array[15]);
@@ -44,7 +50,14 @@ d3.json("/api/dashboard").then((data) =>{
   let layout1 = {
     title: '<b>Quality of Care Ratings by Date Certified<b>',
     xaxis: { title: 'Date Certified' },
-    yaxis: { title: 'Quality of Care Rating' }
+    yaxis: { title: 'Quality of Care Rating' },
+    margin: {
+      l: 100,
+      r: 100,
+      t: 100,
+      b: 100},
+      height: 600,
+      width: 1400
   };
 
   let data1= [trace];
@@ -79,21 +92,22 @@ d3.json("/api/dashboard").then((data) =>{
   // Create the trace for the horizontal bar graph
   let data2 = [
     {
-      y: ['Walking Improvements', 'Bed Mobility Improvement', 'Bathing Improvements', 'Change In Skin Integrity', 'One or More Falls with Injury'],
-      x: [avgWalkingImprovements, avgBedMobilityImprovements, avgBathingImprovements, avgChangeInSkin, avgFallInjury],
+      x: ['Walking Improvements', 'Bed Mobility Improvement', 'Bathing Improvements', 'Change In Skin Integrity', 'One or More Falls with Injury'],
+      y: [avgWalkingImprovements, avgBedMobilityImprovements, avgBathingImprovements, avgChangeInSkin, avgFallInjury],
       type: 'bar'
     }
   ];
   
   // Create the layout for the plot
   let layout2 = {
-    title: '<b>Quality of care averages<b>',
+    title: '<b>State Quality of Care Averages<b>',
     margin: {
           l: 100,
           r: 100,
           t: 100,
           b: 100},
-          bargap :0.05
+    bargap :0.05,
+    yaxis: { title: 'Care Score' }
         };
 
   Plotly.newPlot('bar', data2, layout2); 
@@ -102,7 +116,7 @@ d3.json("/api/dashboard").then((data) =>{
     	{
     		domain: { x: [0, 1], y: [0, 1] },
     		value: aveQualityOfCareRating,
-    		title: { text: "<b>State Care Quality Average <b>" },
+    		title: { text: "<b>State Quality of Care Average <b>" },
         type: "indicator",
     		mode: "gauge+number",
         gauge: {
@@ -120,13 +134,45 @@ d3.json("/api/dashboard").then((data) =>{
     
     // specifying size and margins of chart
     let layout3 = { 
-      width: 600,
-      height: 500, 
+      width: 500,
+      height: 400, 
       margin: { t: 0, b: 0 }
       };
     
     //plot gauge chart
     Plotly.newPlot('gauge', trace3, layout3);
+
+
+//specifing graph type, x and y values, hover text, and marker criteria
+let trace4 ={
+  x: zip,
+  y: quality_of_care_ratings,
+  text: name, walkingImprovements, bedMobilityImprovements, bathingImprovements, changeInSkin, fallInjury,
+  mode: 'markers',
+  marker: {
+    size: [120,100,80,60,40,20],
+    
+    color: quality_of_care_ratings,
+    colorscale: "Jet"
+   }
+};
+
+//Creating title, margin parameters, specify height and weight of graph
+let layout4 = {
+  title: "<b>Quality of Care Rating Per Facility<b>",
+  margin: {
+    l: 100,
+    r: 100,
+    t: 100,
+    b: 100},
+    height: 600,
+    width: 1400};
+
+// assigning graph details to a variable
+let data4= [trace4];
+
+//plot bubble graph
+Plotly.newPlot('bubble', data4, layout4);
   
   });
   }
@@ -147,95 +193,29 @@ d3.json("/api/dashboard").then((data) =>{
     ER_visits.push(array[8]);   
   });
 
-  let trace4 = [
-    {
-      y: ['Hospital Admissions Rates', 'ER Visit Rates'],
-      x: [hospital_admission, ER_visits],
-      type: 'bar'
+  let avgHospital_admission = calculateAverage(hospital_admission).toFixed(4);
+  let avgErVisit = calculateAverage(ER_visits).toFixed(4);
+
+
+  function calculateAverage(arr) {
+    if (arr.length === 0) {
+      return 0;
     }
-  ];
+    
+    let sum = arr.reduce((acc, val) => acc + val);
+    return sum / arr.length;
+  }
   
-  // Create the layout for the plot
-  let layout4 = {
-    title: '<b>Admission Percentages<b>',
-    margin: {
-          l: 100,
-          r: 100,
-          t: 100,
-          b: 100},
-          bargap :0.05
-        };
+  console.log(avgHospital_admission);
+  console.log(avgErVisit);
 
-  Plotly.newPlot('bar2', trace4, layout4); 
-
+  let admissionInfo= d3.selectAll("#sample-admissions");
+  let info= `Average Hospital Admission: ${avgHospital_admission}<br/><br/>Average ER Visit: ${avgErVisit}`;
+  admissionInfo.html(info);
 
 });
 }
-  // function MetaData(sample) {
-  //   d3.json("/api/dashboard").then((data)=>{
-  
-  // //create a variable from metadata list and print results
-  // let metaData = data.metadata;
-  //   console.log("Metadata: ", metaData);
-  
-  // // create a variable to pull first array in metadata list
-  // let metaDataArray = metaData.filter(item =>item.id == sample);
-  // let firstMetaDataArray = metaDataArray[0];
-  // console.log("Current Metadata:", firstMetaDataArray);
-  // // console.log(metaDataArray);
-  
-  // //Select the sample-metadata ID and append the first object with forEach function to get all key-value pairs from first metadata array entry
-  // let demographicInfo= d3.selectAll("#sample-metadata");
-  // demographicInfo.html(" ");
-  // Object.entries(firstMetaDataArray).forEach(([k,v])=> {
-  // demographicInfo.append("div").text(`${k}:${v}`);
-  // });
-  
-  
-  // //setting variables to locate wash frequency in each metadata array
-  // let washFreq = metaDataArray.map(item =>item.wfreq);
-  // let firstWashFreq = washFreq[0];
-  // console.log("Wash Frequency for current ID: ", firstWashFreq);
-  
-  // //determine criteria for the graph
-  // let trace3 = [
-  // 	{
-  // 		domain: { x: [0, 1], y: [0, 1] },
-  // 		value: firstWashFreq,
-  // 		title: { text: "<b>Belly Button Washing Frequency <b><br> Scrubs Per Week" },
-  //     type: "indicator",
-  // 		mode: "gauge+number",
-  //     gauge: {
-  //       axis:{range: [null, 9] },
-  //       steps: [
-  //       { range: [0, 1], color: "ivory" },
-  //       { range: [1, 2] , color: "lightyellow"},
-  //       { range: [2, 3], color:  "beige"},
-  //       { range: [3, 4], color: "yellow" },
-  //       { range: [4, 5], color: "yellowgreen" },
-  //       { range: [5, 6], color: "olive" },
-  //       { range: [6, 7], color: "lightgreen" },
-  //       { range: [7, 8], color: "green" },
-  //       { range: [8, 9], color: "darkgreen" },
-  //       ],
-       
-       
-  
-  // 	}}
-  // ];
-  
-  // // specifying size and margins of chart
-  // let layout3 = { 
-  //   width: 600,
-  //   height: 500, 
-  //   margin: { t: 0, b: 0 }
-  //   };
-  
-  // //plot gauge chart
-  // Plotly.newPlot('gauge', trace3, layout3);
-  //   });
-  // }
-  
+
   function init() {
     
     // Use D3 to select the dropdown menu

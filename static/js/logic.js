@@ -39,7 +39,8 @@ d3.json("/api/homehealth").then((data) => {
       var data = [trace1];
       
       const layout = { 
-        title: 'Average Quality of Rating by Owership Type'
+        title: '<b>Average Quality of Rating by Owership Type<b>',
+        yaxis: { title: 'Quality of Care Rating' }
       };
       
       var config = {responsive: true}
@@ -89,7 +90,8 @@ d3.json("/api/homehealth").then((data) => {
       // Set the layout for the chart
       const layout = {
         barmode: 'stack',
-        title: "Improvement in Activities of Daily Living"
+        title: "<b>Improvement in ADLs<b>",
+        yaxis: { title: 'Care Score' }
         // Define other layout options
       };
   
@@ -100,7 +102,7 @@ d3.json("/api/homehealth").then((data) => {
       // -------------------------------------------------------------------------------
 
     d3.json("/api/admissions").then((data) => {
-      console.log("data");
+      console.log(data);
       const ownershipTypes = data.map(item => item.type_of_ownership);
       const avgPatientsAdmitted = data.map(item => item.avg_patients_admitted);
       const avgPatientsAdmittedER = data.map(item => item.avg_patients_ER_visit);
@@ -129,7 +131,8 @@ d3.json("/api/homehealth").then((data) => {
       // Set the layout for the chart
       const layout = {
         barmode: 'group',
-        title: "Admission Rates"
+        title: "<b>Admission Rates<b>",
+      yaxis: { title: 'Admission Score' }
         // Define other layout options
       };
   
@@ -138,3 +141,25 @@ d3.json("/api/homehealth").then((data) => {
     });
 
        // ------------------------------------------------------------------------------
+    d3.json("/api/ownershippie").then((data) => {
+      console.log(data);
+      var labels = data.map(item => item.label);
+      var values = data.map(item => item.value);
+
+      console.log(labels);
+      console.log(values);
+      
+      let trace2 = [{
+        values: values,
+        labels: labels,
+        type: "pie"
+      }];
+
+      let layout = {
+        title: "<b>Overall Ownership Percentages<b>",
+        height: 600,
+        width: 800
+      };
+
+      Plotly.newPlot('pie', trace2, layout);
+    });
