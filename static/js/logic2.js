@@ -6,18 +6,18 @@ d3.json("/api/dashboard").then((data) =>{
   
   function HHS(sample){
     d3.json("/api/dashboard").then((data)=>{
-  
-  //create a variable from samples list and print results
-  // let link_cms = data.LinkedResultsCMS;
-  // console.log("link_cms: ", link_cms);
-
-  
+    
   let first_state = data.CMS.filter(entry => entry[0] == sample);
 
   console.log(first_state);
 
   let quality_of_care_ratings = [];
   let dates_certified = [];
+  let walkingImprovements = [];
+  let bedMobilityImprovements = [];
+  let bathingImprovements = [];
+  let changeInSkin = [];
+  let fallInjury = [];
 
   first_state.forEach(array => {
     quality_of_care_ratings.push(array[12]);
@@ -41,21 +41,16 @@ d3.json("/api/dashboard").then((data) =>{
     name: 'Quality of Care Rating'
   };
   
-  let layout = {
-    title: 'Quality of Care Ratings by Date Certified',
+  let layout1 = {
+    title: '<b>Quality of Care Ratings by Date Certified<b>',
     xaxis: { title: 'Date Certified' },
     yaxis: { title: 'Quality of Care Rating' }
   };
 
   let data1= [trace];
 
-  Plotly.newPlot('line', data1, layout); 
+  Plotly.newPlot('line', data1, layout1); 
 
-  let walkingImprovements = [];
-  let bedMobilityImprovements = [];
-  let bathingImprovements = [];
-  let changeInSkin = [];
-  let fallInjury = [];
   // Iterate through each array and extract bathing and walking improvements
 
   let avgWalkingImprovements = calculateAverage(walkingImprovements);
@@ -86,13 +81,12 @@ d3.json("/api/dashboard").then((data) =>{
     {
       y: ['Walking Improvements', 'Bed Mobility Improvement', 'Bathing Improvements', 'Change In Skin Integrity', 'One or More Falls with Injury'],
       x: [avgWalkingImprovements, avgBedMobilityImprovements, avgBathingImprovements, avgChangeInSkin, avgFallInjury],
-      type: 'bar',
-      orientation: 'h'
+      type: 'bar'
     }
   ];
   
   // Create the layout for the plot
-  let layout1 = {
+  let layout2 = {
     title: '<b>Quality of care averages<b>',
     margin: {
           l: 100,
@@ -102,12 +96,12 @@ d3.json("/api/dashboard").then((data) =>{
           bargap :0.05
         };
 
-  Plotly.newPlot('bar', data2, layout1); 
+  Plotly.newPlot('bar', data2, layout2); 
 
   let trace3 = [
     	{
     		domain: { x: [0, 1], y: [0, 1] },
-    		value: firstWashFreq,
+    		value: aveQualityOfCareRating,
     		title: { text: "<b>State Care Quality Average <b>" },
         type: "indicator",
     		mode: "gauge+number",
@@ -134,101 +128,49 @@ d3.json("/api/dashboard").then((data) =>{
     //plot gauge chart
     Plotly.newPlot('gauge', trace3, layout3);
   
-  // let link_array = link_cms.filter(item => item.State == sample);
-  // let firstLinkArray = link_array[0];
-  // console.log("current array: ", firstLinkArray);
-  
-
-  
-  // // create a variable to pull first array in samples list
-  // let samplesArray = samples.filter(item =>item.id == sample);
-  // let firstSamplesArray = samplesArray[0];
-  // console.log("Current Selected Array:", firstSamplesArray);
-  
-  // //Create variable displaying the top 10 OTU_Ids 
-  // let TopOtuIds = firstSamplesArray.otu_ids.slice(0,10).map(item=> `OTU ${item}`).reverse();
-  // console.log(TopOtuIds);
-  
-  // //Create variable displaying the top 10 sample values 
-  // let TopSampleValues =firstSamplesArray.sample_values.slice(0,10).reverse();
-  // console.log(TopSampleValues);
-  
-  // //Create variable displaying the top 10 labels
-  // let Otulabels = firstSamplesArray.otu_labels.slice(0,10).reverse();
-  // console.log(Otulabels);
-  
-  // //specifing graph type, x and y values, and hover text
-  // let trace1 = {
-  //   x: TopSampleValues,
-  //   y: TopOtuIds,
-  //   type: "bar",
-  //   orientation: "h",
-  //   text: Otulabels
-  // };
-  
-  // //Creating title and margin parameters
-  // let layout = {
-  //   title: "<b>Top 10 Operational Taxonomic Units<b>",
-  //   margin: {
-  //     l: 100,
-  //     r: 100,
-  //     t: 100,
-  //     b: 100},
-  
-  //     bargap :0.05
-  //   };
-  
-  // // assigning graph details to a variable
-  // let data1= [trace1];
-  
-  // //plot hortizontal bar graph
-  // Plotly.newPlot("bar", data1, layout);
-  
-  
-  // //Assigning all OTU Ids in first array sample a variable
-  // let otuIds = firstSamplesArray.otu_ids;
-  // console.log(otuIds);
-  
-  // //Assigning all sample values in first array sample a variable
-  // let SampleValues = firstSamplesArray.sample_values;
-  // console.log(SampleValues);
-  
-  // //Assigning all otu labels in first array sample a variable
-  // let Otulabels2 = firstSamplesArray.otu_labels;
-  // console.log(Otulabels2);
-  
-  // //specifing graph type, x and y values, hover text, and marker criteria
-  // let trace2 ={
-  //   x: otuIds,
-  //   y: SampleValues,
-  //   text: Otulabels2,
-  //   mode: 'markers',
-  //   marker: {
-  //     color: otuIds,
-  //     size: SampleValues,
-  //     colorscale: "Earth"
-  //    }
-  // };
-  
-  // //Creating title, margin parameters, specify height and weight of graph
-  // let layout2 = {
-  //   title: "<b>OTUs Sample Size<b>",
-  //   margin: {
-  //     l: 100,
-  //     r: 100,
-  //     t: 100,
-  //     b: 100},
-  //     height: 600,
-  //     width: 1400};
-  
-  // // assigning graph details to a variable
-  // let data2= [trace2];
-  
-  // //plot bubble graph
-  // Plotly.newPlot('bubble', data2, layout2);
   });
   }
   
+  function HHSHosp(sample){
+    d3.json("/api/dashboard").then((data)=>{
+    
+  let first_state1 = data.Admission.filter(entry => entry[0] == sample);
+
+  console.log(first_state1);
+
+
+  let hospital_admission = [];
+  let ER_visits= [];
+
+  first_state1.forEach(array => {
+    hospital_admission.push(array[7]);
+    ER_visits.push(array[8]);   
+  });
+
+  let trace4 = [
+    {
+      y: ['Hospital Admissions Rates', 'ER Visit Rates'],
+      x: [hospital_admission, ER_visits],
+      type: 'bar'
+    }
+  ];
+  
+  // Create the layout for the plot
+  let layout4 = {
+    title: '<b>Admission Percentages<b>',
+    margin: {
+          l: 100,
+          r: 100,
+          t: 100,
+          b: 100},
+          bargap :0.05
+        };
+
+  Plotly.newPlot('bar2', trace4, layout4); 
+
+
+});
+}
   // function MetaData(sample) {
   //   d3.json("/api/dashboard").then((data)=>{
   
@@ -312,7 +254,7 @@ d3.json("/api/dashboard").then((data) =>{
      // Initializes the page with a default ID with default bar, bubble graph, gauge chart and demographic info
     const stateOne = StateId[0];
     HHS(stateOne);
-    Admissions(stateOne);
+    HHSHosp(stateOne);
     console.log("State one:", stateOne);
   
   });
@@ -321,7 +263,7 @@ d3.json("/api/dashboard").then((data) =>{
   //create function to change between change all inputs with corresponding ID selected
   function optionChanged(newState){
     HHS(newState);
-    AdmissionS(newState);
+    HHSHosp(newState);
     }
   
   
