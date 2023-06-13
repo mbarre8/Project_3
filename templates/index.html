@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+<div class="header">
+  <h1>Home Health Services Analysis</h1>
+</div>
+
+<div class="topnav">
+  <a href="/"><b>Overview</b></a>
+  <a href="/data"><b>National Level Data Analysis</b></a>
+  <a href="/analysis"><b>State Level Data Analysis</b></a>
+</div>
+
+<div class="row">
+  <h2>Overview</h2>
+    <h4>In the following project, we will be looking at home health services across the United States. Home health services are services provided at home to individuals with chronic illnesses or injury. In many cases using home health services is more cost efficient for an individual then going to a skilled nursing or long-term facilities to seek medical treatments. With home health services you can get medical care in the convenience of your own home.  Furthermore, we examine the impact these services have on an individuals’ quality of life. More specifically we will be looking at hospitalization rate when using these services, the influences these services have on activities of daily living and if ownership type of a home health agency impact patient outcomes. For example, how will the use of a government owned services vs private services impact quality of life and service satisfaction.</h4>
+</div>
+   
+<div class="row">
+  <h2>Data Source</h2>
+    <h4>For this project we obtained our dataset from data.cms.gov, <a href=https://data.cms.gov/provider-data/dataset/6jpm-sxkc>Link</a>. This data was published in 2023 and is a public dataset. The data focuses on key measurable summaries that CMS has chosen to focus on for the year and the data is collected via patient assessment documentation and insurance claims. </h4>
+</div>
+
+<div class="row">
+  <h2>Audience</h2>
+    <h4>Our goal for this project is to build an interactive page to assist any individuals and families looking to use home health services.</h4>
+</div>
+
+<div class="row">
+  <h2>Conclusions</h2>
+    <h4>Some conclusions drawn are the government owned home health services have greater emergency room visit rates and slight lower average for improvements in activity of daily living such as bed mobility, walking and bathing. Government owned home health agencies are a small percentage of the overall home health agencies provided in this data set. Therefore, the amount of people impacted is far less. But the downside is if you cannot afford private home health services or do not have access to voluntary nonprofit home health facility you are at a disadvantage.  There was no real correlation between the date a home health agency was certified and quality of care ratings. In addition, fall injuries and skin changes seem to overall have a low percentage across the board which is a good outcome for quality of life while using home health services. </h4>
+</div>
+ 
+    <script src="{{ url_for('static', filename='js/logic.js') }}"></script>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+</body>
+</html>

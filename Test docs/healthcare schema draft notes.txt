@@ -1,0 +1,4 @@
+Cms data column names need to be shortened or postgres shortens automatically.
+Will test tables,make foreign keys, and create erd updates after updates made.
+
+I fixed the column issue and created and attached a sketch of an ERD for our tables along with the code. I tested the schema and the tables are now available but I think some of the data types like the not nulls need to be change. When I tried to import the data for the cms_data table and the hospitalization_data table there is an an error showing up. 
